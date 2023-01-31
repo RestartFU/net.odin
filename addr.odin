@@ -1,7 +1,6 @@
 package net
 
 import "core:strings"
-import "core:fmt"
 import "core:strconv"
 
 // IPv4 is the representation of an IPv4 address.

@@ -1,7 +1,6 @@
 package net
 
 import "core:c"
-import "core:sys/windows"
 
 SOCKET :: distinct uintptr
 
@@ -50,7 +49,7 @@ when ODIN_OS == .Linux {
         ai_canonname: ^c.char,
         ai_next: ^ADDRINFOA,
     }
-    
+
     foreign import libc "system:c"
     foreign libc {
         socket :: proc(af: c.int, type: c.int, protocol: c.int) -> SOCKET ---
@@ -59,10 +58,8 @@ when ODIN_OS == .Linux {
         connect :: proc(socket: SOCKET, address: ^SOCKADDR, len: c.int) -> c.int ---
 
         inet_addr :: proc(cstring) -> c.ulong ---
-        htons :: proc(c.ushort) -> c.ushort ---
-
-        gethostbyname :: proc(cstring) -> ^hostent ---
         inet_ntoa::proc(in_addr) -> cstring ---
+        htons :: proc(c.ushort) -> c.ushort ---
 
         getaddrinfo :: proc(
             node: cstring,
@@ -86,10 +83,19 @@ when ODIN_OS == .Linux {
         ai_next: ^ADDRINFOA,
     }
 
+    socket :: windows.socket
     read :: windows.recv
     write :: windows.send
+    connect :: windows.connect
+    getaddrinfo :: windows.getaddrinfo
+
     foreign import ws "system:Ws2_32.lib"
     foreign ws {
+        inet_ntoa::proc(in_addr) -> cstring ---
         gethostbyname :: proc(cstring) -> ^hostent ---
+
+        inet_addr :: proc(cstring) -> c.ulong ---
+        inet_ntoa::proc(in_addr) -> cstring ---
+        htons :: proc(c.ushort) -> c.ushort ---
     }
 }

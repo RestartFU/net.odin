@@ -1,6 +1,5 @@
 package net
 
-import "core:fmt"
 import "core:strings"
 
 TcpConn :: struct {
