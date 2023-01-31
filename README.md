@@ -1,5 +1,3 @@
-# (This may be outdated because of the WIP linux support (rewrite of the lib))
-
 # Example
 here is a basic example of a TCP client using **[odin-net](https://github.com/restartfu/odin-net)**
 ```odin
