@@ -2,6 +2,7 @@ package net
 
 import "core:strings"
 import "core:strconv"
+import "network"
 
 // IPv4 is the representation of an IPv4 address.
 IPv4 :: string
@@ -11,10 +12,10 @@ ipv4_by_name :: proc (addr: string) -> IPv4 {
     if addr == "localhost" || len(addr) == 0 {
         return "127.0.0.1"
     }
-    res: ^ADDRINFOA;
+    res: ^network.ADDRINFOA;
 
-    getaddrinfo(strings.clone_to_cstring(addr), nil, nil, &res)
-    return string(inet_ntoa((cast(^sockaddr_in)res.ai_addr).sin_addr))
+    network.getaddrinfo(strings.clone_to_cstring(addr), nil, nil, &res)
+    return string(network.inet_ntoa((cast(^network.sockaddr_in)res.ai_addr).sin_addr))
 }
 
 // Addr is a struct that represents an ipv4 address and a port.

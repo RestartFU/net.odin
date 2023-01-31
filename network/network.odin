@@ -1,4 +1,4 @@
-package net
+package network
 
 import "core:c"
 
@@ -56,7 +56,12 @@ when ODIN_OS == .Linux {
         read :: proc(socket: SOCKET, buf: rawptr, len: c.int, flags: c.int) -> c.int ---
         write :: proc(socket: SOCKET, buf: rawptr, len: c.int, flags: c.int) -> c.int ---
         connect :: proc(socket: SOCKET, address: ^SOCKADDR, len: c.int) -> c.int ---
+        bind :: proc(socket: SOCKET, address: ^SOCKADDR, address_len: c.int) -> c.int ---
+        listen :: proc(socket: SOCKET, backlog: c.int) -> c.int ---
+        accept :: proc(socket: SOCKET, address: ^SOCKADDR, address_len: ^c.int) -> SOCKET ---
+        close :: proc(socket: SOCKET) -> c.int ---
 
+        inet_ntop :: proc (c.int, in_addr, cstring, c.int) ---
         inet_addr :: proc(cstring) -> c.ulong ---
         inet_ntoa::proc(in_addr) -> cstring ---
         htons :: proc(c.ushort) -> c.ushort ---
@@ -82,19 +87,22 @@ when ODIN_OS == .Linux {
         ai_addr: ^SOCKADDR,
         ai_next: ^ADDRINFOA,
     }
-
     socket :: windows.socket
     read :: windows.recv
     write :: windows.send
     connect :: windows.connect
+    bind :: windows.bind
+    listen :: windows.listen
+    accept :: windows.accept
+    close :: windows.closesocket
     getaddrinfo :: windows.getaddrinfo
 
+    @(default_calling_convention="stdcall")
     foreign import ws "system:Ws2_32.lib"
     foreign ws {
-        inet_ntoa::proc(in_addr) -> cstring ---
         gethostbyname :: proc(cstring) -> ^hostent ---
-
         inet_addr :: proc(cstring) -> c.ulong ---
+        inet_ntop :: proc (c.int, in_addr, cstring, c.int) ---
         inet_ntoa::proc(in_addr) -> cstring ---
         htons :: proc(c.ushort) -> c.ushort ---
     }
