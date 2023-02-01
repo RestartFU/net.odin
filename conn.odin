@@ -8,7 +8,6 @@ Conn :: struct {
     remote_addr : Addr,
 }
 
-
 // new_conn creates and returns a new Conn struct.
 new_conn :: proc (sock : network.SOCKET, remote_addr: Addr) -> (^Conn, bool) {
     if sock == network.INVALID_SOCKET {
