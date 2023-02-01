@@ -5,7 +5,7 @@ here is a basic example of a TCP client using **[odin-net](https://github.com/pr
 package example
 
 import "core:fmt"
-// this import can be changed to wherever you put the library.
+// you may change the import path to wherever you put the library.
 import net "../"
 
 main :: proc () {
