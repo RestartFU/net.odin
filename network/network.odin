@@ -77,6 +77,14 @@ when ODIN_OS == .Linux {
 } else when ODIN_OS == .Windows {
     import "core:sys/windows"
 
+    @(init, private)
+    // init starts the Windows Socket API.
+    init_wsa :: proc () {
+        wsaData: windows.WSADATA;
+        ver: windows.WORD = windows.MAKE_WORD(2, 2);
+        windows.WSAStartup(ver, &wsaData);
+    }
+
     ADDRINFOA :: struct {
         ai_flags: c.int,
         ai_family: c.int,
@@ -87,6 +95,7 @@ when ODIN_OS == .Linux {
         ai_addr: ^SOCKADDR,
         ai_next: ^ADDRINFOA,
     }
+
     socket :: windows.socket
     read :: windows.recv
     write :: windows.send
@@ -100,7 +109,6 @@ when ODIN_OS == .Linux {
     @(default_calling_convention="stdcall")
     foreign import ws "system:Ws2_32.lib"
     foreign ws {
-        gethostbyname :: proc(cstring) -> ^hostent ---
         inet_addr :: proc(cstring) -> c.ulong ---
         inet_ntop :: proc (c.int, in_addr, cstring, c.int) ---
         inet_ntoa::proc(in_addr) -> cstring ---
