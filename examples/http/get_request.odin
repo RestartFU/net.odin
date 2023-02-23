@@ -1,6 +1,6 @@
 package example
 
-import http "../http"
+import http "../../http"
 import "core:fmt"
 
 main :: proc () {

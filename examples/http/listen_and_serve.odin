@@ -1,8 +1,8 @@
 package example
 
-import http "../http"
+import net "../../"
+import http "../../http"
 import "core:fmt"
-import net "../"
 
 main :: proc () {
     h := new(http.Handler)

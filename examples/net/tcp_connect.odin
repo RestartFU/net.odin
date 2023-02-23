@@ -1,8 +1,8 @@
 package example
 
-import "core:fmt"
 // you may change the import path to wherever you put the library.
-import net "../"
+import net "../../"
+import "core:fmt"
 
 main :: proc (){
         // connecting to the remote host.
