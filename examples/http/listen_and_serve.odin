@@ -10,7 +10,7 @@ listen_and_serve :: proc () {
     http.listen_and_serve(":8080", h)
 }
 
-test_h ::proc(conn: ^net.Conn, req: ^http.Request) {
+test_h ::proc(conn: ^net.Conn, req: ^http.Request)-> ^http.Response{
     r := new(http.Response)
     r.proto = "HTTP/1.1"
     r.status = "200 OK"
@@ -26,5 +26,5 @@ test_h ::proc(conn: ^net.Conn, req: ^http.Request) {
     </html>
     `
     r.body = transmute([]byte)v
-    net.write_string(conn, http.parse_response_to_string(r))
+    return r
 }

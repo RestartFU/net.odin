@@ -3,12 +3,14 @@ package url
 import "core:strings"
 import "core:fmt"
 
+// URL is a struct that represents a URL.
 URL :: struct {
     scheme: string,
 	host: string,
 	path: string,
 }
 
+// parse parses a raw URL and returns a URL struct.
 parse :: proc (raw_url: string) -> (^URL, bool) {
     if raw_url == "" {
         return nil, false
@@ -35,7 +37,7 @@ parse :: proc (raw_url: string) -> (^URL, bool) {
     return url, true
 }
 
-@(private)
+// get_scheme returns the scheme and the rest of the URL.
 get_scheme :: proc (raw_url: string) -> (string, string, bool){
     for i in 0..=len(raw_url) {
 		c := raw_url[i]

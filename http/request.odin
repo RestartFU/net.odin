@@ -5,15 +5,17 @@ import "core:strings"
 import net "../"
 import url "../url"
 
+// Request is a struct that represents a HTTP request.
 Request :: struct {
     method : string,
     url : ^url.URL,
     proto : string,
-    headers : header,
+    headers : Header,
     user_agent: string,
     body : []byte,
 }
 
+// new_request_url creates a new request with the given method, url, and body.
 new_request_url :: proc (method: string, uri: ^url.URL, body: []byte) -> (^Request, bool) {
     req := new(Request)
     if uri.scheme == "http" || uri.scheme == "https" {
@@ -23,10 +25,11 @@ new_request_url :: proc (method: string, uri: ^url.URL, body: []byte) -> (^Reque
     req.user_agent = "Odin-http-client/1.1"
     req.url = uri
     req.body = body
-    req.headers = make(header)
+    req.headers = make(Header)
     return req, true
 }
 
+// new_request creates a new request with the given method, url, and body.
 new_request :: proc (method, raw_url: string, body: []byte) -> (^Request, bool) {
     if !valid_method(method) {
         return nil, false
@@ -38,6 +41,7 @@ new_request :: proc (method, raw_url: string, body: []byte) -> (^Request, bool) 
     return new_request_url(method, url, body)
 }
 
+// parse_request parses a request to a string.
 parse_request :: proc (req: ^Request) -> string {
     r := fmt.tprintf(
         "%s %s %s\nHost: %s\nUser-Agent: %s\n",
@@ -54,6 +58,7 @@ parse_request :: proc (req: ^Request) -> string {
     return r
 }
 
+// parse_request_from_string parses a request from a string.
 parse_request_from_string :: proc (str: string) -> (^Request, bool) {
     split := strings.split(str, "\r\n")
     if len(split) < 1 {
@@ -71,7 +76,7 @@ parse_request_from_string :: proc (str: string) -> (^Request, bool) {
     req.url = url
     req.proto = inf[2]
 
-    headers := make(header)
+    headers := make(Header)
     split = split[1:]
     i := 1
     for s, _ in split {
@@ -94,6 +99,7 @@ parse_request_from_string :: proc (str: string) -> (^Request, bool) {
     return req, true
 }
 
+// do_request sends a request and returns the response.
 do_request :: proc (req: ^Request) -> (^Response, bool) {
     conn, ok := net.tcp_connect(req.url.host)
     if !ok {
@@ -107,6 +113,7 @@ do_request :: proc (req: ^Request) -> (^Response, bool) {
     return parse_response_from_string(str)
 }
 
+// valid_method checks if the method is valid.
 valid_method :: proc (method: string) -> bool {
     return method == "GET" || method == "POST" || method == "PUT" || method == "DELETE"
 }

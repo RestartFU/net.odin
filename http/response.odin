@@ -4,12 +4,13 @@ import "core:strings"
 import "core:strconv"
 import "core:fmt"
 
+// Response is a struct that represents a HTTP response.
 Response :: struct {
     status: string,
     status_code : int,
     proto: string,
     content_length: int,
-    headers : header,
+    headers : Header,
     body : []byte,
 }
 
@@ -61,7 +62,7 @@ parse_response_from_string :: proc (resp: string) -> (^Response, bool) {
     resp.status = strings.join(inf[1:], " ")
     resp.content_length = -1
 
-    headers := make(header)
+    headers := make(Header)
     split = split[1:]
     i := 1
     for s, _ in split {

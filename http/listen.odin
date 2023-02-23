@@ -25,6 +25,7 @@ init :: proc () {
     not_found_404.body = template.parse_to_bytes(not_found_template, nil)
 }
 
+// listen_and_serve starts a server on the given address and serves using the given handler
 listen_and_serve :: proc(addr: string, h: ^Handler) {
     l, ok := net.tcp_listen(addr)
     if !ok{
@@ -45,8 +46,8 @@ listen_and_serve :: proc(addr: string, h: ^Handler) {
             panic("couldn't parse request")
         }
         path := req.url.path
-        if prc, ok := h.h[path]; ok{
-            prc(conn, req)
+        if prc, ok := h.endpoints[path]; ok{
+            net.write(conn, prc(conn, req).body)
         }else {
             net.write_string(conn, parse_response_to_string(not_found_404))
         }
