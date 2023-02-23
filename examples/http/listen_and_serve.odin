@@ -4,7 +4,7 @@ import net "../../"
 import http "../../http"
 import "core:fmt"
 
-main :: proc () {
+listen_and_serve :: proc () {
     h := new(http.Handler)
     http.handle(h, "/hello_world", test_h)
     http.listen_and_serve(":8080", h)

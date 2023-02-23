@@ -4,7 +4,7 @@ package example
 import net "../../"
 import "core:fmt"
 
-main :: proc (){
+tcp_connect :: proc (){
         // connecting to the remote host.
         conn, ok := net.tcp_connect(":80")
         if !ok {

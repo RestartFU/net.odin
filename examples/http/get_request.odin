@@ -3,7 +3,7 @@ package example
 import http "../../http"
 import "core:fmt"
 
-main :: proc () {
+get_request :: proc () {
     r, ok := http.new_request("GET", "http://www.randomnumberapi.com/api/v1.0/random?min=100&max=1000&count=1", nil)
     if !ok{
         fmt.println("error")

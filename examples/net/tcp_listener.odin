@@ -2,7 +2,7 @@ package example
 
 import net "../../"
 
-main :: proc () {
+tcp_listener :: proc () {
     l, ok := net.tcp_listen(":80")
     if !ok{
         panic("couldn't start listening")
