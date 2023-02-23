@@ -1,4 +1,4 @@
-package network
+package bindings
 
 import "core:c"
 
@@ -61,7 +61,7 @@ when ODIN_OS == .Linux {
         accept :: proc(socket: SOCKET, address: ^SOCKADDR, address_len: ^c.int) -> SOCKET ---
         close :: proc(socket: SOCKET) -> c.int ---
 
-        inet_ntop :: proc (c.int, in_addr, cstring, c.int) ---
+        inet_ntop :: proc (c.int, in_addr, cstring, c.int) -> cstring ---
         inet_addr :: proc(cstring) -> c.ulong ---
         inet_ntoa::proc(in_addr) -> cstring ---
         htons :: proc(c.ushort) -> c.ushort ---

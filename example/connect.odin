@@ -1,4 +1,4 @@
-package main
+package example
 
 import "core:fmt"
 // you may change the import path to wherever you put the library.
@@ -6,7 +6,7 @@ import net "../"
 
 main :: proc (){
         // connecting to the remote host.
-        conn, ok := net.tcp_connect(":6969")
+        conn, ok := net.tcp_connect(":80")
         if !ok {
             fmt.println("failed to connect")
             return

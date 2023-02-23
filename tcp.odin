@@ -1,6 +1,6 @@
 package net
 
-import "network"
+import "bindings"
 import "core:strings"
 
 @(private)
@@ -9,14 +9,14 @@ TCP : i32 = 0
 
 // tcp_listen listens for incoming connections to the specified address.
 tcp_listen_addr :: proc (addr: Addr) -> (^Listener, bool) {
-    sock := network.socket(network.AF_INET, network.SOCK_STREAM, TCP);
+    sock := bindings.socket(bindings.AF_INET, bindings.SOCK_STREAM, TCP);
 
-    server_addr: network.sockaddr_in;
-    server_addr.sin_family = u16(network.AF_INET);
-    server_addr.sin_port = network.htons(u16(addr.port));
-    server_addr.sin_addr.s_addr = u32(network.inet_addr(strings.clone_to_cstring(addr.ip)));
+    server_addr: bindings.sockaddr_in;
+    server_addr.sin_family = u16(bindings.AF_INET);
+    server_addr.sin_port = bindings.htons(u16(addr.port));
+    server_addr.sin_addr.s_addr = u32(bindings.inet_addr(strings.clone_to_cstring(addr.ip)));
 
-    res := network.bind(sock, cast(^network.SOCKADDR)&server_addr, size_of(server_addr));
+    res := bindings.bind(sock, cast(^bindings.SOCKADDR)&server_addr, size_of(server_addr));
     if res < 0 {
         return nil, false;
     }
@@ -34,14 +34,14 @@ tcp_listen :: proc (address: string) -> (^Listener, bool) {
 
 // tcp_connect_addr creates a TCP connection to the specified address.
 tcp_connect_addr :: proc (addr: Addr) -> (^Conn, bool) {
-    sock := network.socket(network.AF_INET, network.SOCK_STREAM, TCP);
+    sock := bindings.socket(bindings.AF_INET, bindings.SOCK_STREAM, TCP);
 
-    server_addr: network.sockaddr_in;
-    server_addr.sin_family = u16(network.AF_INET);
-    server_addr.sin_port = network.htons(u16(addr.port));
-    server_addr.sin_addr.s_addr = u32(network.inet_addr(strings.clone_to_cstring(addr.ip)));
+    server_addr: bindings.sockaddr_in;
+    server_addr.sin_family = u16(bindings.AF_INET);
+    server_addr.sin_port = bindings.htons(u16(addr.port));
+    server_addr.sin_addr.s_addr = u32(bindings.inet_addr(strings.clone_to_cstring(addr.ip)));
 
-    res := network.connect(sock, cast(^network.SOCKADDR)&server_addr, size_of(server_addr));
+    res := bindings.connect(sock, cast(^bindings.SOCKADDR)&server_addr, size_of(server_addr));
     if res < 0 {
         return nil, false;
     }
