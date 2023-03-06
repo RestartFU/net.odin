@@ -1,7 +1,7 @@
 # Example
-here is a basic example of a TCP client using **[odin-net](https://github.com/pragu3/odin-net)**
+here is a basic example of a TCP client using **[odin-net](https://github.com/Pr4gu3/net.odin)**
 ```odin
-// basic example of the usage of odin-net
+// basic example of the usage of net.odin
 package example
 
 import "core:fmt"
