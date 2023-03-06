@@ -1,5 +1,5 @@
 # Example
-here is a basic example of a TCP client using **[odin.net](https://github.com/Pr4gu3/net.odin)**
+here is a basic example of a TCP client using **[net.odin](https://github.com/Pr4gu3/net.odin)**
 ```odin
 // basic example of the usage of net.odin
 package example
