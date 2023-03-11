@@ -49,10 +49,3 @@ read_string :: proc(conn: ^Conn) -> (string, bool) {
     }
     return transmute(string)buf[:recv], true
 }
-
-// close closes the connection.
-close :: proc (conn: ^Conn) -> int {
-    n := bindings.close(conn.sock)
-    free(conn)
-    return int(n)
-}

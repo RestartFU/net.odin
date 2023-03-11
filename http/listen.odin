@@ -32,6 +32,8 @@ listen_and_serve :: proc(addr: string, h: ^Handler) {
         panic("couldn't start listening")
     }
 
+    defer net.close(l)
+    
     for{
         conn, ok := net.accept(l)
         if !ok{
@@ -47,7 +49,7 @@ listen_and_serve :: proc(addr: string, h: ^Handler) {
         }
         path := req.url.path
         if prc, ok := h.endpoints[path]; ok{
-            net.write(conn, prc(conn, req).body)
+            net.write_string(conn, parse_response_to_string(prc(conn, req)))
         }else {
             net.write_string(conn, parse_response_to_string(not_found_404))
         }

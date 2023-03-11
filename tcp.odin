@@ -58,3 +58,21 @@ tcp_connect :: proc (address: string) -> (^Conn, bool) {
 
     return tcp_connect_addr(addr)
 }
+
+
+
+// close closes the connection.
+close :: proc (s: union{^Conn, ^Listener}) -> int {
+    sock: bindings.SOCKET
+
+    if c, ok := s.(^Conn); ok {
+        sock = c.sock
+        free(c)
+    } else if l, ok := s.(^Conn); ok {
+        sock = l.sock
+        free(l)
+    }
+
+    n := bindings.close(sock)
+    return int(n)
+}
